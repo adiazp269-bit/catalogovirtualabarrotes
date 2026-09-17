@@ -1,36 +1,355 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="index.css">
+    <meta name="description" content="Tienda de abarrotes - compras online">
+    <title>Mi Abarrotes | Tienda Online</title>
+
+    <link rel="stylesheet" href="tienda.css">
 </head>
 
 <body>
-    <header>
 
-    </header>
-    <nav>
-        <a href="#">Inicio</a>
-    <a href="#">Nosotros</a>
-    <a href="#">Contacto</a>
-    </nav>
-    <main>
-<form action="">
-    <input type="text" placeholder="Ingresa Usuario" id="usuario" 
-    
-    >
-</form>
-    </main>
-    <h1>Abraha Diaz</h1>
-    <h2>Diseño web</h2>
-    <h3>Instituto Trujillo</h3>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, quas quae alias pariatur laudantium totam
-        cupiditate praesentium libero rem, exercitationem sequi quaerat esse voluptatibus excepturi officia dolorem non
-        facilis doloribus.</p>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbIH0JYy_r49bIyRYu02Td1A7e8kx-C8TZKvjopogkQA&s" alt="">
+<header class="header">
+    <div class="container header-content">
+
+        <a href="#" class="logo">
+            🛒 Mi<span>Abarrotes</span>
+        </a>
+
+        <nav class="nav">
+            <a href="#productos">Productos</a>
+            <a href="#categorias">Categorías</a>
+            <button class="btn-user" onclick="abrirUsuario()">
+                👤 <span id="nombreUsuario">Mi cuenta</span>
+            </button>
+            <button class="btn-cart" onclick="abrirCarrito()">
+                🛒 <span id="contadorCarrito">0</span>
+            </button>
+        </nav>
+
+    </div>
+</header>
+
+
+<main>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container hero-content">
+
+            <div>
+                <p class="hero-tag">🛍️ Compra fácil y rápido</p>
+
+                <h1>
+                    Todo lo que necesitas
+                    <span>en un solo lugar</span>
+                </h1>
+
+                <p>
+                    Encuentra abarrotes, bebidas, productos de limpieza
+                    y mucho más.
+                </p>
+
+                <a href="#productos" class="btn-primary">
+                    Comprar ahora
+                </a>
+            </div>
+
+            <div class="hero-image">
+                🛒
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- CATEGORÍAS -->
+    <section id="categorias" class="categories">
+        <div class="container">
+
+            <h2>Comprar por categoría</h2>
+
+            <div class="category-grid">
+
+                <button onclick="filtrarCategoria('Todos')">
+                    <span>🛒</span>
+                    Todos
+                </button>
+
+                <button onclick="filtrarCategoria('Abarrotes')">
+                    <span>🍚</span>
+                    Abarrotes
+                </button>
+
+                <button onclick="filtrarCategoria('Bebidas')">
+                    <span>🥤</span>
+                    Bebidas
+                </button>
+
+                <button onclick="filtrarCategoria('Lácteos')">
+                    <span>🥛</span>
+                    Lácteos
+                </button>
+
+                <button onclick="filtrarCategoria('Limpieza')">
+                    <span>🧹</span>
+                    Limpieza
+                </button>
+
+                <button onclick="filtrarCategoria('Snacks')">
+                    <span>🍪</span>
+                    Snacks
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- PRODUCTOS -->
+    <section id="productos" class="products-section">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Productos</h2>
+                    <p>Elige tus productos favoritos</p>
+                </div>
+
+                <div class="search-box">
+                    🔎
+                    <input
+                        type="text"
+                        id="buscador"
+                        placeholder="Buscar producto..."
+                        oninput="buscarProductos()"
+                    >
+                </div>
+
+            </div>
+
+            <div id="productosGrid" class="products-grid"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BENEFICIOS -->
+    <section class="benefits">
+
+        <div class="container benefits-grid">
+
+            <div>
+                <span>🚚</span>
+                <h3>Entrega rápida</h3>
+                <p>Recibe tus productos en la comodidad de tu hogar.</p>
+            </div>
+
+            <div>
+                <span>⭐</span>
+                <h3>Gana puntos</h3>
+                <p>Acumula puntos cada vez que realizas una compra.</p>
+            </div>
+
+            <div>
+                <span>📱</span>
+                <h3>Pedido por WhatsApp</h3>
+                <p>Envía tu pedido directamente a nuestro WhatsApp.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- CARRITO -->
+<div id="cartOverlay" class="overlay">
+
+    <div class="side-panel">
+
+        <div class="panel-header">
+            <h2>🛒 Mi carrito</h2>
+
+            <button onclick="cerrarCarrito()" class="close">
+                ✕
+            </button>
+        </div>
+
+        <div id="carritoItems" class="cart-items"></div>
+
+        <div class="cart-footer">
+
+            <div class="cart-total">
+                <span>Total</span>
+                <strong id="totalCarrito">S/ 0.00</strong>
+            </div>
+
+            <button class="btn-whatsapp" onclick="realizarPedido()">
+                📱 Pedir por WhatsApp
+            </button>
+
+            <button class="btn-clear" onclick="vaciarCarrito()">
+                Vaciar carrito
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CUENTA -->
+<div id="userOverlay" class="overlay">
+
+    <div class="modal">
+
+        <button onclick="cerrarUsuario()" class="close">
+            ✕
+        </button>
+
+        <div id="loginSection">
+
+            <h2>👤 Mi cuenta</h2>
+            <p>Ingresa para consultar tus puntos y compras.</p>
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Correo electrónico"
+            >
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Contraseña"
+            >
+
+            <button class="btn-primary full" onclick="iniciarSesion()">
+                Iniciar sesión
+            </button>
+
+            <p class="switch-text">
+                ¿No tienes cuenta?
+                <button onclick="mostrarRegistro()">
+                    Crear cuenta
+                </button>
+            </p>
+
+        </div>
+
+
+        <div id="registerSection" class="hidden">
+
+            <h2>Crear cuenta</h2>
+            <p>Regístrate y empieza a acumular puntos.</p>
+
+            <input
+                type="text"
+                id="registroNombre"
+                placeholder="Nombre completo"
+            >
+
+            <input
+                type="email"
+                id="registroEmail"
+                placeholder="Correo electrónico"
+            >
+
+            <input
+                type="password"
+                id="registroPassword"
+                placeholder="Contraseña"
+            >
+
+            <button class="btn-primary full" onclick="registrarUsuario()">
+                Registrarme
+            </button>
+
+            <p class="switch-text">
+                ¿Ya tienes cuenta?
+                <button onclick="mostrarLogin()">
+                    Iniciar sesión
+                </button>
+            </p>
+
+        </div>
+
+
+        <div id="accountSection" class="hidden">
+
+            <div class="account-header">
+                <div class="avatar">👤</div>
+
+                <div>
+                    <h2 id="cuentaNombre"></h2>
+                    <p id="cuentaEmail"></p>
+                </div>
+            </div>
+
+            <div class="points-card">
+
+                <span>⭐</span>
+
+                <div>
+                    <small>Mis puntos</small>
+                    <strong id="cuentaPuntos">0</strong>
+                </div>
+
+            </div>
+
+            <h3>Historial de compras</h3>
+
+            <div id="historialCompras" class="history"></div>
+
+            <button class="btn-clear full" onclick="cerrarSesion()">
+                Cerrar sesión
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+
+<footer>
+
+    <div class="container footer-content">
+
+        <div>
+            <h3>🛒 MiAbarrotes</h3>
+            <p>Tu tienda de abarrotes online.</p>
+        </div>
+
+        <div>
+            <h4>Contacto</h4>
+            <p>📱 WhatsApp: +51 999 999 999</p>
+            <p>📍 Lima, Perú</p>
+        </div>
+
+    </div>
+
+    <div class="copyright">
+        © 2026 MiAbarrotes - Todos los derechos reservados
+    </div>
+
+</footer>
+
+
+<script src="tienda.js"></script>
+
 </body>
-
 </html>
